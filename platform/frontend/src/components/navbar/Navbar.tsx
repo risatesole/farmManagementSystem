@@ -1,17 +1,11 @@
 import styles from './Navbar.module.css';
-
-const SquareLogo = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="40" height="40" fill="#3498db"/>
-    <rect x="8" y="8" width="24" height="24" fill="#f8f9fa"/>
-  </svg>
-);
+import logo from "../../assets/logo.svg"; 
 
 const Navbar = () => {
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
-        <SquareLogo />
+        <img src={logo} alt="Logo" className={styles.logo} />
       </div>
       
       <div className={styles.navContent}>
