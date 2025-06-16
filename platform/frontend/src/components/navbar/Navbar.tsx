@@ -23,8 +23,9 @@ const Navbar = () => {
           </ul>
         </nav>
         
-        <div className={styles.signinSection}>
+        <div className={styles.SignInUpSection}>
           <p className={styles.signinText}>Sign in</p>
+          <p className={styles.signinText}>Sign Up</p>
         </div>
       </div>
     </div>

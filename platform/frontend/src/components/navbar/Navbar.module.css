@@ -21,9 +21,12 @@
 }
 
 /* Keep your existing styles for signinSection, navList etc. */
-.signinSection {
+.SignInUpSection {
   text-align: right;
-  margin-bottom: 0; /* Updated from previous */
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .navList {
