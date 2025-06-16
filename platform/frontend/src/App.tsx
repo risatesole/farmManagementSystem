@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-import Navbar from "./components/navbar/Navbar.tsx"
+import Navbar from "./components/navbar/Navbar";
 
-const Home = (): JSX.Element => {
-  return (
-    <>
+// If using React 17+, you can remove the explicit React import above and ensure tsconfig.json has "jsx": "react-jsx"
+
+const Home: React.FC = () => (
+  <>
     <Navbar />
-      <div><p>Welcome to the farm system</p></div>
-    </>
-  )
-};
+    <div><p>Welcome to the farm system</p></div>
+  </>
+);
 
-const App: React.FC = (): JSX.Element => {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
