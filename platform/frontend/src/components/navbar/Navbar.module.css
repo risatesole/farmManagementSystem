@@ -1,11 +1,10 @@
-/* Navbar.module.css */
 .navbar {
   display: flex;
   align-items: center;
   background-color: #f8f9fa;
   padding: 16px;
   border-bottom: 1px solid #eee;
-  gap: 24px; /* Space between logo and nav items */
+  gap: 24px;
 }
 
 .logoContainer {
@@ -20,7 +19,6 @@
   width: 100%;
 }
 
-/* Keep your existing styles for signinSection, navList etc. */
 .SignInUpSection {
   text-align: right;
   margin-bottom: 0;
