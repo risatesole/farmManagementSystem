@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
+import SignupPage from "./pages/signup/Signup"
 
 const HomePage: React.FC = () => (
   <>
@@ -14,6 +15,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignupPage />}/>
       </Routes>
     </BrowserRouter>
   );
