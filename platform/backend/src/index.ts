@@ -1,3 +1,4 @@
+// server
 import express, { Express, Request, response, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -27,7 +28,7 @@ app.use(bodyParser.json());
 // });
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "../database.sqlite", // or ':memory:' for in-memory database
+  storage: "./database.sqlite", // or ':memory:' for in-memory database
   logging: console.log,
 });
 
@@ -37,8 +38,10 @@ interface UserAttributes {
   id: number;
   firstname: string;
   lastname: string;
+  birthdate: Date;
   username: string;
   password: string;
+  agreedTermsOfService:boolean;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -52,6 +55,8 @@ class User
   public lastname!: string;
   public username!: string;
   public password!: string;
+  public birthdate!: Date;
+  public agreedTermsOfService!:boolean;
 
   // timestamps si usas
   public readonly createdAt!: Date;
@@ -65,6 +70,8 @@ User.init(
     lastname: { type: DataTypes.STRING, allowNull: false },
     username: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
+    birthdate: {type: DataTypes.STRING,allowNull: false},
+    agreedTermsOfService:{type:DataTypes.BOOLEAN,allowNull: false}
   },
   {
     sequelize,
@@ -141,11 +148,14 @@ type AuthenticationResponse = {
 
 app.post("/signup", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { firstname, lastname, username, password } = req.body;
+    const { firstname, lastname, birthdate, username, password, agreedTermsOfService } = req.body;
+    // todo: make the checks
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.create({
       firstname,
       lastname,
+      birthdate,
+      agreedTermsOfService,
       username,
       password: hashedPassword,
     });
@@ -270,6 +280,16 @@ app.get("/private", async (req: Request, res: Response): Promise<void> => {
     const user = await User.findByPk(decoded.id, {
       attributes: { exclude: ["password"] },
     });
+
+    if (!user) {
+      const response: AuthenticationResponse = {
+        success: false,
+        message: "User not found",
+      };
+      res.status(404).json(response);
+      return;
+    }
+
     res.json({ user });
   } catch {
     res.status(401).json({ error: "Unauthorized" });

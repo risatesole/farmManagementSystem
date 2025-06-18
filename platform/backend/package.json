@@ -7,7 +7,8 @@
     "start": "node dist/index.js",
     "dev-start": "node --env-file=.env dist/index.js",
     "dev": "ts-node src/index.ts",
-    "dev:run": "tsc && node --env-file=.env dist/index.js"
+    "dev:run": "tsc && node --env-file=.env dist/index.js",
+    "apitest": "node dist/__test__/test.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
