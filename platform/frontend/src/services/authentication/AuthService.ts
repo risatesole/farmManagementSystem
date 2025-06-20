@@ -1,4 +1,5 @@
 export type UserCredentials = {
+  email:string;
   username: string;
   password: string;
   firstname: string;
@@ -107,6 +108,7 @@ export class AuthService {
         body: JSON.stringify({
           firstname: credentials.firstname,
           lastname: credentials.lastname,
+          email: credentials.email,
           username: credentials.username,
           password: credentials.password,
           birthdate: credentials.birthdate,

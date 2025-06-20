@@ -13,6 +13,7 @@ function Formulario() {
   const [formData, setFormData] = useState<UserCredentials>({
     firstname: "",
     lastname: "",
+    email:"",
     username: "",
     password: "",
     birthdate: "",
@@ -33,6 +34,7 @@ function Formulario() {
     const requiredFields: (keyof UserCredentials)[] = [
       "firstname",
       "lastname",
+      "email",
       "username",
       "password",
       "birthdate",
@@ -56,6 +58,7 @@ function Formulario() {
       firstname: formData.firstname,
       lastname: formData.lastname,
       birthdate: formData.birthdate,
+      email: formData.email,
       username: formData.username,
       password: formData.password,
       agreedTermsOfService: formData.agreedTermsOfService,
@@ -65,7 +68,9 @@ function Formulario() {
     if (result.success == false) {
       alert(result.message);
     } else {
-      alert("successfull signup");
+      // console.log(result.error?.message);
+
+      alert(`${result.message}`);
       navigate("/login");
     }
   };
@@ -92,6 +97,18 @@ function Formulario() {
           name="lastname"
           placeholder="lastname"
           value={formData.lastname}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email"></label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="email"
+          value={formData.email}
           onChange={handleChange}
         />
       </div>
