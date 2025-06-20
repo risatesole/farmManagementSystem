@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../services/authentication/AuthService";
+import styles from './styles.module.css'
 
 function Formulario() {
   const navigate = useNavigate(); 
@@ -69,46 +70,51 @@ function Formulario() {
     }
   };
   return (
+    <div className={styles.formcontainer}>
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="firstname">firstName</label>
+        <label htmlFor="firstname"></label>
         <input
           type="text"
           id="firstname"
           name="firstname"
+          placeholder="firstname"
           value={formData.firstname}
           onChange={handleChange}
         />
       </div>
 
       <div>
-        <label htmlFor="lastname">Lastname</label>
+        <label htmlFor="lastname"></label>
         <input
           type="text"
           id="lastname"
           name="lastname"
+          placeholder="lastname"
           value={formData.lastname}
           onChange={handleChange}
         />
       </div>
 
       <div>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username"></label>
         <input
           type="text"
           id="username"
           name="username"
+          placeholder="username"
           value={formData.username}
           onChange={handleChange}
         />
       </div>
 
       <div>
-        <label htmlFor="password">Passsword</label>
+        <label htmlFor="password"></label>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
+          placeholder="password"
           value={formData.password}
           onChange={handleChange}
         />
@@ -144,6 +150,7 @@ function Formulario() {
       </div>
       <button type="submit">Submit</button>
     </form>
+    </div>
   );
 }
 
