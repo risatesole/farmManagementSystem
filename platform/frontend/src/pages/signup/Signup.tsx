@@ -1,8 +1,14 @@
-import type { UserCredentials } from "../../services/authentication/AuthService";
+import type {
+  UserCredentials,
+  AuthResponse,
+} from "../../services/authentication/AuthService";
 import React, { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../services/authentication/AuthService";
 
 function Formulario() {
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState<UserCredentials>({
     firstname: "",
     lastname: "",
@@ -21,7 +27,7 @@ function Formulario() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const requiredFields: (keyof UserCredentials)[] = [
       "firstname",
@@ -43,7 +49,24 @@ function Formulario() {
       return;
     }
 
-    console.log("Form submitted:", formData);
+    // console.log("Form submitted:", formData);
+    const authservice = new AuthService();
+    const credentials: UserCredentials = {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      birthdate: formData.birthdate,
+      username: formData.username,
+      password: formData.password,
+      agreedTermsOfService: formData.agreedTermsOfService,
+    };
+    const result: AuthResponse = await authservice.signUp(credentials);
+
+    if (result.success == false) {
+      alert(result.message);
+    } else {
+      alert("successfull signup");
+      navigate("/login");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>

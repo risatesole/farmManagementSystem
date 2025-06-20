@@ -10,11 +10,20 @@ const HomePage: React.FC = () => (
   </>
 );
 
+const SignInPage: React.FC = () => (
+  <>
+    <div><p>Welcome to the sign in page</p></div>
+  </>
+);
+
+
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<SignInPage />} />
         <Route path="/signup" element={<SignupPage />}/>
       </Routes>
     </BrowserRouter>
