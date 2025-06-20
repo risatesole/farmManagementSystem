@@ -1,11 +1,11 @@
 import type {
   UserCredentials,
   AuthResponse,
-} from "../../services/authentication/AuthService";
+} from "../../../services/authentication/AuthService";
 import React, { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthService } from "../../services/authentication/AuthService";
+import { AuthService } from "../../../services/authentication/AuthService";
 import styles from './styles.module.css'
 
 function Formulario() {
@@ -76,6 +76,7 @@ function Formulario() {
   };
   return (
     <div className={styles.formcontainer}>
+      <p>Sign up</p>
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="firstname"></label>

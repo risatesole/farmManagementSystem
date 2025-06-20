@@ -8,6 +8,11 @@ export type UserCredentials = {
   agreedTermsOfService: boolean;
 };
 
+export type UserSigninCredentials = {
+  email:string;
+  password:string;
+}
+
 type AuthTokens = {
   accessToken?: string;
   refreshToken?: string;
@@ -129,7 +134,7 @@ export class AuthService {
     }
   }
 
-  public async signIn(username: string, password: string): Promise<AuthResponse> {
+  public async signIn(email: string, password: string): Promise<AuthResponse> {
     try {
       const response = await this.fetchJSON(`${this.baseURL}/signin`, {
         method: 'POST',
@@ -137,7 +142,7 @@ export class AuthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username,
+          email,
           password,
         }),
       });
