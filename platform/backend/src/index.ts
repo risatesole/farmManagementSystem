@@ -183,8 +183,8 @@ app.post("/signup", async (req: Request, res: Response): Promise<void> => {
 
 app.post("/signin", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ where: { username } });
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       const response: AuthenticationResponse = {
         success: false,
