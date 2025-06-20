@@ -1,9 +1,134 @@
-const SignupPage = () => {
+import type { UserCredentials } from "../../services/authentication/AuthService";
+import React, { useState } from "react";
+import type { FormEvent } from "react";
 
+function Formulario() {
+  const [formData, setFormData] = useState<UserCredentials>({
+    firstname: "",
+    lastname: "",
+    username: "",
+    password: "",
+    birthdate: "",
+    agreedTermsOfService: false,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    // console.log("change");
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const requiredFields: (keyof UserCredentials)[] = [
+      "firstname",
+      "lastname",
+      "username",
+      "password",
+      "birthdate",
+    ];
+
+    const missingFields = requiredFields.filter((field) => !formData[field]);
+
+    if (missingFields.length > 0) {
+      alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
+      return;
+    }
+
+    if (!formData.agreedTermsOfService) {
+      alert("You must agree to the Terms of Service");
+      return;
+    }
+
+    console.log("Form submitted:", formData);
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="firstname">firstName</label>
+        <input
+          type="text"
+          id="firstname"
+          name="firstname"
+          value={formData.firstname}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="lastname">Lastname</label>
+        <input
+          type="text"
+          id="lastname"
+          name="lastname"
+          value={formData.lastname}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="password">Passsword</label>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="birthdate">Birthdate</label>
+        <input
+          type="date"
+          id="birthdate"
+          name="birthdate"
+          value={formData.birthdate}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="agreedTermsOfService">
+          <input
+            type="checkbox"
+            id="agreedTermsOfService"
+            name="agreedTermsOfService"
+            checked={formData.agreedTermsOfService}
+            onChange={(e) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                agreedTermsOfService: e.target.checked,
+              }))
+            }
+          />
+          I agree to the Terms of Service
+        </label>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+const SignupPage = () => {
   return (
     <div>
-      <h2>This will be the SignupPage</h2>
-      </div>
+      <Formulario />
+    </div>
   );
 };
 
