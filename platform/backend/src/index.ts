@@ -39,6 +39,7 @@ interface UserAttributes {
   firstname: string;
   lastname: string;
   birthdate: Date;
+  email: string;
   username: string;
   password: string;
   agreedTermsOfService:boolean;
@@ -53,6 +54,7 @@ class User
   public id!: number;
   public firstname!: string;
   public lastname!: string;
+  public email!: string;
   public username!: string;
   public password!: string;
   public birthdate!: Date;
@@ -68,6 +70,7 @@ User.init(
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     firstname: { type: DataTypes.STRING, allowNull: false },
     lastname: { type: DataTypes.STRING, allowNull: false },
+    email: {type: DataTypes.STRING, allowNull: false},
     username: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
     birthdate: {type: DataTypes.STRING,allowNull: false},
@@ -75,8 +78,8 @@ User.init(
   },
   {
     sequelize,
-    modelName: "User",
-    tableName: "Users",
+    modelName: "user",
+    tableName: "users",
   }
 );
 
@@ -148,7 +151,7 @@ type AuthenticationResponse = {
 
 app.post("/signup", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { firstname, lastname, birthdate, username, password, agreedTermsOfService } = req.body;
+    const { firstname, lastname, birthdate, email,username, password, agreedTermsOfService } = req.body;
     // todo: make the checks
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.create({
@@ -156,6 +159,7 @@ app.post("/signup", async (req: Request, res: Response): Promise<void> => {
       lastname,
       birthdate,
       agreedTermsOfService,
+      email,
       username,
       password: hashedPassword,
     });
