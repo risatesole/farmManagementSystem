@@ -6,11 +6,6 @@ import styles from './styles.module.css';
 import StorgeRefreshTokenLocalStorage from './storgeRefreshTokenLocalStorage';
 import SuccessSigninAlerts from './TempSuccessSigninAlerts';
 
-/**
- * @function Formulario
- * @description Es un formulario
- * @returns jsx element
- */
 function Formulario() {
   const [formData, setFormData] = useState<UserSigninCredentials>({
     email: '',
