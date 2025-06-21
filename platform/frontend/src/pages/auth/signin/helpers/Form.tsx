@@ -2,7 +2,7 @@ import type { AuthResponse, UserSigninCredentials } from '../../../../services/a
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { AuthService } from '../../../../services/authentication/AuthService';
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 import StorgeRefreshTokenLocalStorage from './storgeRefreshTokenLocalStorage';
 import SuccessSigninAlerts from './TempSuccessSigninAlerts';
 
