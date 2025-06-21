@@ -11,26 +11,31 @@ const app: Express = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// const databaseUrl = process.env.DATABASE_URL;
-// if (!databaseUrl) {
-//   throw new Error("DATABASE_URL environment variable is not defined");
-// }
 
-// const sequelize = new Sequelize(databaseUrl, {
-//   dialect: 'postgres',
-//   dialectOptions: {
-//     ssl: {
-//       require: true,
-//       rejectUnauthorized: false
-//     }
-//   },
-//   logging: console.log
-// });
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "./database.sqlite", // or ':memory:' for in-memory database
-  logging: console.log,
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  throw new Error("DATABASE_URL environment variable is not defined");
+}
+
+const sequelize = new Sequelize(databaseUrl, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
+  logging: console.log
 });
+
+
+
+
+// const sequelize = new Sequelize({
+//   dialect: "sqlite",
+//   storage: "./database.sqlite", // or ':memory:' for in-memory database
+//   logging: console.log,
+// });
 
 // Interfaces para User
 
