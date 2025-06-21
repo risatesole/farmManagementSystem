@@ -1,15 +1,19 @@
 import type {
-  UserCredentials,
-  AuthResponse,UserSigninCredentials
+  AuthResponse,
+  UserSigninCredentials,
 } from "../../../services/authentication/AuthService";
 import React, { useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../../services/authentication/AuthService";
 import styles from "./styles.module.css";
 
+function storgeRefreshTokenLocalStorage(refreshToken: string) {
+  if (refreshToken) {
+    localStorage.setItem("refreshToken", refreshToken as string);
+  }
+}
+
 function Formulario() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState<UserSigninCredentials>({
     email: "",
     password: "",
@@ -43,19 +47,22 @@ function Formulario() {
       email: formData.email,
       password: formData.password,
     };
-    const result: AuthResponse = await authservice.signIn(credentials.email,credentials.password);
-    
-    // todo: put the tokens in the localstorage of the browser then 
-    const accesstoken: String | undefined = result.tokens?.accesstoken;
-    const refreshToken: String | undefined = result.tokens?.refreshtoken;
+    const result: AuthResponse = await authservice.signIn(
+      credentials.email,
+      credentials.password
+    );
 
     if (result.success == false) {
       alert(result.message);
     } else {
-      // console.log(result.error?.message);
 
       alert(`${result.message}`);
-      alert("after signin in functionality not included jet")
+
+      alert("after signin in functionality not included jet");
+
+      if (result.tokens?.refreshtoken) {
+        storgeRefreshTokenLocalStorage(result.tokens?.refreshtoken);
+      }
     }
   };
   return (
