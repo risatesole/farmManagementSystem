@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 // import { DataTypes, Model, Optional } from "sequelize";
 import User from "./models/UserModel";
 import Token from "./models/TokenModel";
+import type { AuthenticationResponse } from "./types/AuthenticationResponse";
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
@@ -19,25 +20,6 @@ app.use(bodyParser.json());
 const JWT_SECRET_KEY = "your-very-secure-secret-key";
 const JWT_ACCESS_EXPIRY = "15m";
 const REFRESH_KEY_EXPIRY = "7d";
-
-type AuthenticationResponse = {
-  success: boolean;
-  message: string;
-  data?: {
-    firstname: string;
-    lastname: string;
-    birthdate: string;
-    email: string;
-  };
-  error?: {
-    code: string;
-    message: string;
-  };
-  tokens?: {
-    accesstoken?: string;
-    refreshtoken?: string;
-  };
-};
 
 app.post("/signup", async (req: Request, res: Response): Promise<void> => {
   try {
