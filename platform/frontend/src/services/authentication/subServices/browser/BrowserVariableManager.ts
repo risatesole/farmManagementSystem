@@ -4,10 +4,13 @@
  * the services that will depend in this service are tokens
  */
 class BrowserVariableManager {
-    setVariable(variableName:String,value:String){
+    setVariable(key:string,value:string){
+        localStorage.setItem(key, value);
 
     }
-    getVariable(variableName:String){}
+    getVariable(token:string){
+        return localStorage.getItem(token);
+    }
 }
 
 export default BrowserVariableManager;

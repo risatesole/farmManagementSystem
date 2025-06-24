@@ -1,9 +1,8 @@
-import type { AuthResponse, UserSigninCredentials } from '../../../../services/authentication/AuthService';
+import type { UserSigninCredentials,ServerResponse } from '../../../../services/authentication/types';
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { AuthService } from '../../../../services/authentication/AuthService';
 import styles from '../styles.module.css';
-import StorgeRefreshTokenLocalStorage from './storgeRefreshTokenLocalStorage';
 import SuccessSigninAlerts from './TempSuccessSigninAlerts';
 
 function Formulario() {
@@ -35,13 +34,13 @@ function Formulario() {
       password: formData.password,
     };
 
-    const result: AuthResponse = await authservice.signIn(credentials.email, credentials.password);
+    const result: ServerResponse = await authservice.signIn(credentials.email, credentials.password);
 
     if (result.success == false) {
       alert(result.message);
     } else {
       SuccessSigninAlerts();
-      StorgeRefreshTokenLocalStorage(result.tokens?.refreshtoken ?? '');
+      
     }
   };
   return (

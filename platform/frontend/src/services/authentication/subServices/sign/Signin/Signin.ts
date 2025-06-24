@@ -1,24 +1,31 @@
-import type {ServerResponse} from '../../../types'
+import type { ServerResponse } from '../../../types';
 import HttpClient from '../../network/HTTPclient';
+import TokenManager from '../../token/TokenManager';
 
 const client = new HttpClient();
+const tokenManager = new TokenManager();
 
-async function SignInService(email:String, password:String){
+async function SignInService(email: String, password: String) {
     const signinResponse = await client.execute<ServerResponse>({
-            url: 'http://localhost:3000/signin',
-            method: 'POST',
-            body: {
-                
-                email: email,
-                password: password,
-                
-            },
-        });
-        if(signinResponse.data.success== true){
-            // todo:
-            // save the tokens in the browser use browser service for that
-            // else dont save anything return  the response
+        url: 'http://localhost:3000/signin',
+        method: 'POST',
+        body: {
+            email: email,
+            password: password,
+        },
+    });
+    if (signinResponse.data.success == true) {
+        const refreshtoken = signinResponse.data.tokens?.refreshtoken;
+        const accessToken = signinResponse.data.tokens?.accesstoken;
+
+        if (refreshtoken) {
+            tokenManager.setRefreshToken(refreshtoken);
         }
-        return signinResponse.data
+
+        if (accessToken) {
+            tokenManager.setAccessToken(accessToken);
+        }
+    }
+    return signinResponse.data;
 }
-export default SignInService
+export default SignInService;
