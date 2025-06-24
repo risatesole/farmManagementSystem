@@ -1,19 +1,31 @@
 import type {
   UserCredentials,
   AuthResponse,
-} from "../../../services/authentication/AuthService";
+  ServerResponse,
+} from "../../../services/authentication/types";
 import React, { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthService } from "../../../services/authentication/AuthService";
 import styles from './styles.module.css'
 
+// Nuevo tipo solo para el formulario
+type UserFormData = {
+  email: string;
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string; // string aquí para input date
+  agreedTermsOfService: boolean;
+};
+
 function Formulario() {
   const navigate = useNavigate(); 
   const [formData, setFormData] = useState<UserCredentials>({
     firstname: "",
     lastname: "",
-    email:"",
+    email: "",
     username: "",
     password: "",
     birthdate: "",
@@ -22,7 +34,6 @@ function Formulario() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // console.log("change");
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -31,7 +42,7 @@ function Formulario() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const requiredFields: (keyof UserCredentials)[] = [
+    const requiredFields: (keyof UserFormData)[] = [
       "firstname",
       "lastname",
       "email",
@@ -52,122 +63,129 @@ function Formulario() {
       return;
     }
 
-    // console.log("Form submitted:", formData);
     const authservice = new AuthService();
     const credentials: UserCredentials = {
       firstname: formData.firstname,
       lastname: formData.lastname,
-      birthdate: formData.birthdate,
+      birthdate: formData.birthdate, // conversión aquí
       email: formData.email,
       username: formData.username,
       password: formData.password,
       agreedTermsOfService: formData.agreedTermsOfService,
     };
-    const result: AuthResponse = await authservice.signUp(credentials);
+
+    const result: ServerResponse = await authservice.signUp(
+      credentials.firstname,
+      credentials.lastname,
+      credentials.username,
+      credentials.email,
+      credentials.password,
+      new Date(credentials.birthdate),
+      credentials.agreedTermsOfService
+    );
 
     if (result.success == false) {
       alert(result.message);
     } else {
-      // console.log(result.error?.message);
-
       alert(`${result.message}`);
       navigate("/login");
     }
   };
+
   return (
     <div className={styles.formcontainer}>
       <p>Sign up</p>
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="firstname"></label>
-        <input
-          type="text"
-          id="firstname"
-          name="firstname"
-          placeholder="firstname"
-          value={formData.firstname}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="lastname"></label>
-        <input
-          type="text"
-          id="lastname"
-          name="lastname"
-          placeholder="lastname"
-          value={formData.lastname}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="email"></label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="username"></label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          placeholder="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="password"></label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="birthdate">Birthdate</label>
-        <input
-          type="date"
-          id="birthdate"
-          name="birthdate"
-          value={formData.birthdate}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="agreedTermsOfService">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="firstname"></label>
           <input
-            type="checkbox"
-            id="agreedTermsOfService"
-            name="agreedTermsOfService"
-            checked={formData.agreedTermsOfService}
-            onChange={(e) =>
-              setFormData((prevData) => ({
-                ...prevData,
-                agreedTermsOfService: e.target.checked,
-              }))
-            }
+            type="text"
+            id="firstname"
+            name="firstname"
+            placeholder="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
           />
-          I agree to the Terms of Service
-        </label>
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+        </div>
+
+        <div>
+          <label htmlFor="lastname"></label>
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            placeholder="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email"></label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="username"></label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password"></label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="birthdate">Birthdate</label>
+          <input
+            type="date"
+            id="birthdate"
+            name="birthdate"
+            value={formData.birthdate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="agreedTermsOfService">
+            <input
+              type="checkbox"
+              id="agreedTermsOfService"
+              name="agreedTermsOfService"
+              checked={formData.agreedTermsOfService}
+              onChange={(e) =>
+                setFormData((prevData) => ({
+                  ...prevData,
+                  agreedTermsOfService: e.target.checked,
+                }))
+              }
+            />
+            I agree to the Terms of Service
+          </label>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
