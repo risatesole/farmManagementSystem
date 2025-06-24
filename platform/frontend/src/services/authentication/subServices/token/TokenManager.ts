@@ -15,6 +15,7 @@ class TokenManager {
     getAccessToken() {
         // browserVariable.getVariable('accesstoken');
         sessionStorage.getItem('accesstoken');
+        //todo mechanism that checks if access token still valid, if not it asks for another one
     }
 }
 export default TokenManager;

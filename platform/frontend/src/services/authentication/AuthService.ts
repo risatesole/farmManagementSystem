@@ -30,23 +30,24 @@ export class AuthService {
         
     }
 
-    public async signOut() {
-        /* ... */
-    }
+    // public async signOut() {
+    //     /* ... */
+    // }
 
-    public async refreshAccessToken() {
-        /* ... */
-    }
+    // public async refreshAccessToken() {
+    //     /* ... */
+    // }
 
-    public isAuthenticated() {
-        /* ... */
-    }
+    // public isAuthenticated() {
+    //     /* ... */
+    // }
 
-    public getAccessToken() {
-        /* ... */
-    }
+    // public getAccessToken() {
+    //     /* ... */
+    // }
 
-    public getRefreshToken() {
-        /* ... */
-    }
+    // public getRefreshToken() {
+    //     /* ... */
+    // }
+    
 }
