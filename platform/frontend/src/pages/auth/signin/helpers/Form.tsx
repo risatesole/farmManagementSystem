@@ -2,10 +2,12 @@ import type { UserSigninCredentials,ServerResponse } from '../../../../services/
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { AuthService } from '../../../../services/authentication/AuthService';
+import successSignInUIProcedure from './successSignInUIProcedure';
 import styles from '../styles.module.css';
-import SuccessSigninAlerts from './TempSuccessSigninAlerts';
+import { useNavigate } from "react-router-dom";
 
 function Formulario() {
+  const navigator = useNavigate();
   const [formData, setFormData] = useState<UserSigninCredentials>({
     email: '',
     password: '',
@@ -39,7 +41,7 @@ function Formulario() {
     if (result.success == false) {
       alert(result.message);
     } else {
-      SuccessSigninAlerts();
+      successSignInUIProcedure(navigator);
       
     }
   };
